@@ -37,8 +37,8 @@ android {
 }
 
 dependencies {
-    implementation("org.godotengine:godot:4.2.2.stable")
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("org.godotengine:godot:4.3.0.stable")
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-measurement-api:22.0.0")
 }

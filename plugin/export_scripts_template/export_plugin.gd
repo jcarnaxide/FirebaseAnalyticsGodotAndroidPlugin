@@ -6,7 +6,7 @@ extends EditorPlugin
 var export_plugin : AndroidExportPlugin
 const FIREBASE_DEPENDENCIES := """\n    \
 //Firebase dependencies\n    \
-implementation platform("com.google.firebase:firebase-bom:33.0.0")\n    \
+implementation platform("com.google.firebase:firebase-bom:33.5.1")\n    \
 implementation "com.google.firebase:firebase-analytics"\n    \
 implementation "com.google.android.gms:play-services-measurement-api:22.0.0"
 """
@@ -16,7 +16,7 @@ id 'com.google.gms.google-services'
 """
 const FIREBASE_PLUGINS_ROOT := """\n        \
 //Firebase plugins\n        \
-id 'com.google.gms.google-services' version '4.4.1' apply false
+id 'com.google.gms.google-services' version '4.4.2' apply false
 """
 
 
@@ -102,7 +102,7 @@ class AndroidExportPlugin extends EditorExportPlugin:
 	func _supports_platform(platform):
 		if platform is EditorExportPlatformAndroid:
 			if not get_option("gradle_build/use_gradle_build"):
-				push_warning("Firebase Analytics not added cause you don't use grudle build")
+				push_warning("Firebase Analytics not added cause you don't use gradle build")
 				return false
 			if not FileAccess.file_exists("res://android/build/google-services.json"):
 				push_warning("Firebase Analytics not added cause file res://android/build/google-services.json not founded")
