@@ -18,7 +18,11 @@ const FIREBASE_PLUGINS_ROOT := """\n        \
 //Firebase plugins\n        \
 id 'com.google.gms.google-services' version '4.4.2' apply false
 """
-
+const DISABLE_ANALYTICS_ON_STARTUP_META_TAG = """
+<meta-data
+    android:name="firebase_analytics_collection_enabled"
+    android:value="false" />
+"""
 
 func _enter_tree():
 	# Initialization of the plugin goes here.
@@ -117,6 +121,8 @@ class AndroidExportPlugin extends EditorExportPlugin:
 		else:
 			return PackedStringArray([_plugin_name + "/bin/release/" + _plugin_name + "-release.aar"])
 
+	func _get_android_manifest_application_element_contents(platform: EditorExportPlatform, debug: bool) -> String:
+		return DISABLE_ANALYTICS_ON_STARTUP_META_TAG
 
 	func _get_name():
 		return _plugin_name

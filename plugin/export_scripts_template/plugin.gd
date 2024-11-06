@@ -15,6 +15,11 @@ func logEvent(event: String, params: Dictionary) -> void:
 	if _singleton:
 		_singleton.logEvent(event, params)
 
+
+func setAnalyticsCollectionEnabled(enabled: bool) -> void:
+	if _singleton:
+		_singleton.setAnalyticsCollectionEnabled(enabled)
+
 ## https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Event
 class Event:
 	const ADD_PAYMENT_INFO = "add_payment_info"

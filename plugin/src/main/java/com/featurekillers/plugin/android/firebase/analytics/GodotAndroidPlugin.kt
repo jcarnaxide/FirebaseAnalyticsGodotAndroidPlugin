@@ -1,6 +1,7 @@
 package com.featurekillers.plugin.android.firebase.analytics
 
 import android.app.Activity
+import android.util.Log
 import android.view.View
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
@@ -12,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import org.godotengine.godot.Dictionary
 
 class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
+    private val TAG = "FirebaseAnalyticsGodot"
 
     override fun getPluginName() = BuildConfig.GODOT_PLUGIN_NAME
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -45,5 +47,12 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
                 }
             }
         }
+    }
+
+    @UsedByGodot
+    private fun setAnalyticsCollectionEnabled(enabled: Boolean) {
+        Log.d(TAG, (if (enabled) "Enabling" else "Disabling") + " analytics collection")
+        firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
+        Log.d(TAG, "Analytics collection " + (if (enabled) "enabled" else "disabled"))
     }
 }
