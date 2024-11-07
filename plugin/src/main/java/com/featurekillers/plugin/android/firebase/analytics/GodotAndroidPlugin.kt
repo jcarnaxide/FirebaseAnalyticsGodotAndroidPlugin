@@ -55,4 +55,10 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
         firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
         Log.d(TAG, "Analytics collection " + (if (enabled) "enabled" else "disabled"))
     }
+
+    @UsedByGodot
+    private fun testCrash(msg: String = "testCrash") {
+        Log.d(TAG, "Testing crash with msg=$msg")
+        throw RuntimeException(msg)
+    }
 }

@@ -20,6 +20,11 @@ func setAnalyticsCollectionEnabled(enabled: bool) -> void:
 	if _singleton:
 		_singleton.setAnalyticsCollectionEnabled(enabled)
 
+
+func testCrash(msg: String) -> void:
+	if _singleton:
+		_singleton.testCrash(msg)
+
 ## https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Event
 class Event:
 	const ADD_PAYMENT_INFO = "add_payment_info"

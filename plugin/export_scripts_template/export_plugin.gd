@@ -4,19 +4,23 @@ extends EditorPlugin
 
 # A class member to hold the editor export plugin during its lifecycle.
 var export_plugin : AndroidExportPlugin
+
 const FIREBASE_DEPENDENCIES := """\n    \
 //Firebase dependencies\n    \
-implementation platform("com.google.firebase:firebase-bom:33.5.1")\n    \
+implementation platform("com.google.firebase:firebase-bom:33.0.0")\n    \
+implementation "com.google.firebase:firebase-crashlytics"\n    \
 implementation "com.google.firebase:firebase-analytics"\n    \
-implementation "com.google.android.gms:play-services-measurement-api:22.0.0"
+implementation "com.google.android.gms:play-services-measurement-api:22.0.0"\n
 """
 const FIREBASE_PLUGINS := """\n    \
 //Firebase plugins\n    \
-id 'com.google.gms.google-services'
+id 'com.google.gms.google-services'\n    \
+id 'com.google.firebase.crashlytics'\n
 """
 const FIREBASE_PLUGINS_ROOT := """\n        \
 //Firebase plugins\n        \
-id 'com.google.gms.google-services' version '4.4.2' apply false
+id 'com.google.gms.google-services' version '4.4.2' apply false\n        \
+id 'com.google.firebase.crashlytics' version '3.0.2' apply false\n
 """
 const DISABLE_ANALYTICS_ON_STARTUP_META_TAG = """
 <meta-data
@@ -75,12 +79,12 @@ class AndroidExportPlugin extends EditorExportPlugin:
 			file.close()
 			var replace_file := false
 			if not "//Firebase dependencies" in file_text:
-				file_text = file_text.replace("implementation \"androidx.fragment:fragment:$versions.fragmentVersion\"\n",
-						"implementation \"androidx.fragment:fragment:$versions.fragmentVersion\"\n" + FIREBASE_DEPENDENCIES)
+				var search_text := "implementation \"androidx.core:core-splashscreen:$versions.splashscreenVersion\"\n"
+				file_text = file_text.replace(search_text, search_text + FIREBASE_DEPENDENCIES)
 				replace_file = true
 			if not file_text.contains("//Firebase plugins"):
-				file_text = file_text.replace("id 'org.jetbrains.kotlin.android'\n",
-						"id 'org.jetbrains.kotlin.android'\n" + FIREBASE_PLUGINS)
+				var search_text := "id 'org.jetbrains.kotlin.android'\n"
+				file_text = file_text.replace(search_text, search_text + FIREBASE_PLUGINS)
 				replace_file = true
 			if replace_file:
 				file = FileAccess.open("res://android/build/build.gradle", FileAccess.WRITE)
@@ -92,10 +96,8 @@ class AndroidExportPlugin extends EditorExportPlugin:
 			file.close()
 			replace_file = false
 			if not file_text.contains("//Firebase plugins"):
-				file_text = file_text.replace(
-						"id 'org.jetbrains.kotlin.android' version versions.kotlinVersion\n",
-						"id 'org.jetbrains.kotlin.android' version versions.kotlinVersion\n"
-						+ FIREBASE_PLUGINS_ROOT)
+				var search_text := "id 'org.jetbrains.kotlin.android' version versions.kotlinVersion\n"
+				file_text = file_text.replace(search_text, search_text + FIREBASE_PLUGINS_ROOT)
 				replace_file = true
 			if replace_file:
 				file = FileAccess.open("res://android/build/settings.gradle", FileAccess.WRITE)
