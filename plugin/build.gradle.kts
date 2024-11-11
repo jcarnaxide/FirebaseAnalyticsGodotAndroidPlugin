@@ -12,7 +12,7 @@ val pluginPackageName = "com.featurekillers.plugin.android.firebase.analytics"
 
 android {
     namespace = pluginPackageName
-    compileSdk = 33
+    compileSdk = 34
 
     buildFeatures {
         buildConfig = true
@@ -39,8 +39,9 @@ android {
 dependencies {
     implementation("org.godotengine:godot:4.3.0.stable")
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.android.gms:play-services-measurement-api:22.0.0")
+    implementation("com.google.android.gms:play-services-measurement-api:22.1.2")
 }
 
 // BUILD TASKS DEFINITION

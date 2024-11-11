@@ -7,10 +7,11 @@ var export_plugin : AndroidExportPlugin
 
 const FIREBASE_DEPENDENCIES := """\n    \
 //Firebase dependencies\n    \
-implementation platform("com.google.firebase:firebase-bom:33.0.0")\n    \
+implementation platform("com.google.firebase:firebase-bom:33.5.1")\n    \
 implementation "com.google.firebase:firebase-crashlytics"\n    \
+implementation "com.google.firebase:firebase-crashlytics-ndk"\n    \
 implementation "com.google.firebase:firebase-analytics"\n    \
-implementation "com.google.android.gms:play-services-measurement-api:22.0.0"\n
+implementation "com.google.android.gms:play-services-measurement-api:22.1.2"\n
 """
 const FIREBASE_PLUGINS := """\n    \
 //Firebase plugins\n    \
@@ -21,11 +22,6 @@ const FIREBASE_PLUGINS_ROOT := """\n        \
 //Firebase plugins\n        \
 id 'com.google.gms.google-services' version '4.4.2' apply false\n        \
 id 'com.google.firebase.crashlytics' version '3.0.2' apply false\n
-"""
-const DISABLE_ANALYTICS_ON_STARTUP_META_TAG = """
-<meta-data
-    android:name="firebase_analytics_collection_enabled"
-    android:value="false" />
 """
 
 func _enter_tree():
@@ -44,7 +40,7 @@ func _exit_tree():
 
 func _disable_plugin() -> void:
 	_cleanup_plugin()
-	
+
 static func _cleanup_plugin() -> void:
 	if FileAccess.file_exists("res://android/build/build.gradle"):
 		var file := FileAccess.open("res://android/build/build.gradle", FileAccess.READ)
@@ -123,8 +119,6 @@ class AndroidExportPlugin extends EditorExportPlugin:
 		else:
 			return PackedStringArray([_plugin_name + "/bin/release/" + _plugin_name + "-release.aar"])
 
-	func _get_android_manifest_application_element_contents(platform: EditorExportPlatform, debug: bool) -> String:
-		return DISABLE_ANALYTICS_ON_STARTUP_META_TAG
 
 	func _get_name():
 		return _plugin_name
